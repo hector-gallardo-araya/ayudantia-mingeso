@@ -7,11 +7,10 @@ export default function StudentView() {
 
     const [estudiante, setEstudiante] = useState(null);
 
-    async function fetchEstudiante() {
+    async function fetchEstudiante() {    
         try{
-            const response = await gestionService.getEstudiante(rutEstudiante)
-            setEstudiante(response.data);
-            console.log(response.data);
+            const response = await gestionService.getEstudiante(rutEstudiante)            
+            setEstudiante(response.data);                        
         }catch(error) {
             alert("Error al obtener a los estudiantes.");
         }

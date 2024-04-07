@@ -27,7 +27,6 @@ public class GestionController {
         this.gestionService = gestionService;
     }
 
-
     @GetMapping("/estudiantes")
     List<Estudiante> getEstudiantes() {
         return gestionService.getEstudiantes();
@@ -93,5 +92,4 @@ public class GestionController {
     List<Asignatura> getAsignaturasPorCarrera(@RequestParam("idCarrera") Integer idCarrera) {
         return gestionService.getAsignaturasPorCarrera(idCarrera);
     }
-
 }

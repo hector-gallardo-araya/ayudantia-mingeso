@@ -42,16 +42,15 @@ export default function CreateStudentRefactor() {
       })
 
       alert("Estudiante " + response.data.rut + " creado con exito");
-    }catch(error) {
-      console.log(error);
+    }catch(error) {      
       alert("Error al crear al estudiante.");
     }
   }
 
   function onChangeStudentHandler(event) {
-    student.setState({
+    setStudent({      
+      ...student,
       [event.target.id]: event.target.value,
-      ...student
     })
   }
 
@@ -149,7 +148,7 @@ export default function CreateStudentRefactor() {
           <select 
             id="idCarrera" 
             className="form-select" 
-            value={idCarrera} 
+            value={student.idCarrera} 
             onChange={onChangeStudentHandler}>
             <option>Seleccionar una carrera...</option>
             {

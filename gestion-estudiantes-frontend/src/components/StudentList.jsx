@@ -6,7 +6,7 @@ export default function StudentList() {
   const [estudiantes, setEstudiantes] = useState([]);
 
   async function fetchEstudiantes() {
-    try{
+    try{      
       const response = await gestionService.getEstudiantes();  
       setEstudiantes(response.data);
     }catch(error) {
@@ -18,7 +18,7 @@ export default function StudentList() {
     fetchEstudiantes();
   }, [])
 
-  return(
+  return (
     <div className="container">
       <h1>Lista estudiantes</h1>
   
@@ -32,21 +32,19 @@ export default function StudentList() {
             <th scope="col">Acción</th>
           </tr>
         </thead>
-        <tbody>
-          {
-            (
-              estudiantes.map((estudiante, index) => (
-                <tr key={index}>
-                  <td>{estudiante.rut}</td>
-                  <td>{estudiante.nombre}</td>
-                  <td>{estudiante.apellido}</td>
-                  <td>{estudiante.idCarrera}</td>
-                  <td>
-                    <Link to={`/estudiantes/${estudiante.rut}`}>Ver</Link>
-                  </td>
-                </tr>
-              ))
-            )
+        <tbody>        
+          {                                 
+            estudiantes.map((estudiante, index) => (
+              <tr key={index}>
+                <td>{estudiante.rut}</td>
+                <td>{estudiante.nombre}</td>
+                <td>{estudiante.apellido}</td>
+                <td>{estudiante.idCarrera}</td>
+                <td>
+                  <Link to={`/estudiantes/${estudiante.rut}`}>Ver</Link>
+                </td>
+              </tr>
+            ))
           }
         </tbody>
       </table>

@@ -8,17 +8,16 @@ export default function CreateStudent() {
   const [calle, setCalle] = useState("");
   const [ciudad, setCiudad] = useState("");
   const [idCarrera, setIdCarrera] = useState(-1);
+
   const [carreras, setCarreras] = useState(null);
 
   async function fetchCarreras() {
-    const response = await gestionService.getCarreras();
-
-    if(response.status !== 200) {
-      alert("Error al obtener las carreras.");
-      throw new Error("Error al obtener las carreras.");
+    try{
+      const response = await gestionService.getCarreras();
+      setCarreras(response.data);
+    }catch(error){
+      alert("Error al obtener carreras");
     }
-
-    setCarreras(response.data);
   }
 
   useEffect(() => {
@@ -28,13 +27,6 @@ export default function CreateStudent() {
   async function handleCrearEstudiante(e) {
     e.preventDefault();
     try{
-
-      const estudiante = {
-        rut: rut,
-        nombre: nombre,
-        
-      }
-      
       const response = await gestionService.crearEstudiante({
         rut,
         nombre,
@@ -59,15 +51,24 @@ export default function CreateStudent() {
 
   }
 
+  function handleRutChange(event) {
+    setRut(event.target.value);
+  }
+
   return (
     <div className="container">
       <h1 className="mb-4">Crear estudiante</h1>
       <form className="border row g-3 px-4">
+
         <div className="col-12">
           <label htmlFor="rut" className="form-label">RUT</label>
-          <input id="rut" type="text" className="form-control" 
-          value={rut} 
-          onChange={event => setRut(event.target.value)} />          
+          <input 
+            id="rut" 
+            type="text" 
+            className="form-control" 
+            value={rut} 
+            onChange={handleRutChange} 
+          />          
         </div>
 
         <div className="col-md-6 mr-md-3">
@@ -101,7 +102,7 @@ export default function CreateStudent() {
               carreras !== null &&
               (carreras.map((carrera, index) => (
                 <option key={index} value={carrera.id}>{carrera.nombre}</option>
-                )))              
+              )))              
             }
           </select>
         </div>
