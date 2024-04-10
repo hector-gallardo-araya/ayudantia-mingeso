@@ -1,0 +1,84 @@
+version: "3.8"
+services:
+  nginx:
+    image: nginx:latest
+    container_name: gestion-estudiantes-nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./dist:/usr/share/nginx/html
+    depends_on:
+      - spring1
+      - spring2
+      - spring3  
+  postgres:
+    container_name: gestion-estudiantes-postgres-container
+    image: postgres
+    deploy:
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - gestion-estudiantes-postgres-volume:/var/lib/postgresql/data
+    environment:      
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5435:5432
+  spring1:
+    container_name: gestion-estudiantes-backend-container-1
+    image: polloh/gestion-estudiantes-backend
+    ports:
+      - "8091:8090"
+    environment:
+      DB_HOST: gestion-estudiantes-postgres-container
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+    deploy:
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - postgres
+  spring2:
+    container_name: gestion-estudiantes-backend-container-2
+    image: polloh/gestion-estudiantes-backend
+    ports:
+      - "8092:8090"
+    environment:
+      DB_HOST: gestion-estudiantes-postgres-container
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+    deploy:
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - postgres
+  spring3:
+    container_name: gestion-estudiantes-backend-container-3
+    image: polloh/gestion-estudiantes-backend
+    ports:
+      - "8093:8090"
+    environment:
+      DB_HOST: gestion-estudiantes-postgres-container
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+    deploy:
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - postgres
+  frontend:
+    container_name: gestion-estudiantes-frontend
+    image: polloh/gestion-estudiantes-frontend
+    ports:
+      - "3000:3000"
+    deploy:
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - postgres
+volumes:
+  gestion-estudiantes-postgres-volume:

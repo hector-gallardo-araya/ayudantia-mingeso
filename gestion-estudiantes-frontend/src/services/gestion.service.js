@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const ESTUDIANTES_API_URL = "http://localhost:8090/api/estudiantes";
-const CARRERAS_API_URL = "http://localhost:8090/api/carreras";
+const ESTUDIANTES_API_URL = "http://localhost:80/api/estudiantes";
+const CARRERAS_API_URL = "http://localhost:80/api/carreras";
 
 
 function crearEstudiante(estudiante) {
