@@ -8,11 +8,13 @@ services:
       - "80:80"
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./dist:/usr/share/nginx/html
     depends_on:
       - spring1
       - spring2
-      - spring3  
+      - spring3
+      - react1
+      - react2
+      - react3
   postgres:
     container_name: gestion-estudiantes-postgres-container
     image: postgres
@@ -24,7 +26,7 @@ services:
     environment:      
       POSTGRES_PASSWORD: postgres
     ports:
-      - 5435:5432
+      - 5435:5432      
   spring1:
     container_name: gestion-estudiantes-backend-container-1
     image: polloh/gestion-estudiantes-backend
@@ -68,17 +70,31 @@ services:
     deploy:
       restart_policy:
         condition: on-failure
-    depends_on:
-      - postgres
-  frontend:
-    container_name: gestion-estudiantes-frontend
+  react1:
+    container_name: gestion-estudiantes-frontend-container-1
     image: polloh/gestion-estudiantes-frontend
     ports:
-      - "3000:3000"
+      - "3001:3000"
     deploy:
       restart_policy:
         condition: on-failure
     depends_on:
       - postgres
+  react2:
+    container_name: gestion-estudiantes-frontend-container-2
+    image: polloh/gestion-estudiantes-frontend
+    ports:
+      - "3002:3000"
+    deploy:
+      restart_policy:
+        condition: on-failure
+  react3:
+    container_name: gestion-estudiantes-frontend-container-3
+    image: polloh/gestion-estudiantes-frontend
+    ports:
+      - "3003:3000"
+    deploy:
+      restart_policy:
+        condition: on-failure
 volumes:
   gestion-estudiantes-postgres-volume:
