@@ -1,17 +1,31 @@
 version: "3.8"
 services:
-  nginx:
-    image: nginx:latest
-    container_name: gestion-estudiantes-nginx-proxy
+  # Nginx servers
+  nginx-backend:
+    image: nginx
+    container_name: gestion-estudiantes-nginx-backend-container
     restart: always
     ports:
-      - "80:80"
+      - 80:80
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./backend.conf:/etc/nginx/nginx.conf
+    networks:
+      - gestion-estudiantes-backend-network
     depends_on:
       - spring1
       - spring2
-      - spring3
+      - spring3      
+  nginx-frontend:
+    image: nginx
+    container_name: gestion-estudiantes-nginx-frontend-container
+    restart: always
+    ports:
+      - 8070:8070
+    volumes:
+      - ./frontend.conf:/etc/nginx/nginx.conf
+    networks:
+      - gestion-estudiantes-frontend-network
+    depends_on:      
       - react1
       - react2
       - react3
@@ -23,6 +37,8 @@ services:
         condition: on-failure
     volumes:
       - gestion-estudiantes-postgres-volume:/var/lib/postgresql/data
+    networks:
+      - gestion-estudiantes-backend-network
     environment:      
       POSTGRES_PASSWORD: postgres
     ports:
@@ -31,12 +47,14 @@ services:
     container_name: gestion-estudiantes-backend-container-1
     image: polloh/gestion-estudiantes-backend
     ports:
-      - "8091:8090"
+      - 8091:8090
     environment:
       DB_HOST: gestion-estudiantes-postgres-container
       DB_PORT: 5432
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
+    networks:
+      - gestion-estudiantes-backend-network
     deploy:
       restart_policy:
         condition: on-failure
@@ -46,12 +64,14 @@ services:
     container_name: gestion-estudiantes-backend-container-2
     image: polloh/gestion-estudiantes-backend
     ports:
-      - "8092:8090"
+      - 8092:8090
     environment:
       DB_HOST: gestion-estudiantes-postgres-container
       DB_PORT: 5432
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
+    networks:
+      - gestion-estudiantes-backend-network
     deploy:
       restart_policy:
         condition: on-failure
@@ -61,12 +81,14 @@ services:
     container_name: gestion-estudiantes-backend-container-3
     image: polloh/gestion-estudiantes-backend
     ports:
-      - "8093:8090"
+      - 8093:8090
     environment:
       DB_HOST: gestion-estudiantes-postgres-container
       DB_PORT: 5432
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
+    networks:
+      - gestion-estudiantes-backend-network
     deploy:
       restart_policy:
         condition: on-failure
@@ -74,27 +96,34 @@ services:
     container_name: gestion-estudiantes-frontend-container-1
     image: polloh/gestion-estudiantes-frontend
     ports:
-      - "3001:3000"
+      - 3001:3000
+    networks:
+      - gestion-estudiantes-frontend-network
     deploy:
       restart_policy:
         condition: on-failure
-    depends_on:
-      - postgres
   react2:
     container_name: gestion-estudiantes-frontend-container-2
     image: polloh/gestion-estudiantes-frontend
     ports:
-      - "3002:3000"
+      - 3002:3000
+    networks:
+      - gestion-estudiantes-frontend-network
     deploy:
       restart_policy:
         condition: on-failure
   react3:
     container_name: gestion-estudiantes-frontend-container-3
     image: polloh/gestion-estudiantes-frontend
+    networks:
+      - gestion-estudiantes-frontend-network
     ports:
-      - "3003:3000"
+      - 3003:3000
     deploy:
       restart_policy:
         condition: on-failure
 volumes:
   gestion-estudiantes-postgres-volume:
+networks:
+  gestion-estudiantes-frontend-network:
+  gestion-estudiantes-backend-network:
