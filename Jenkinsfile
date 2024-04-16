@@ -24,7 +24,7 @@ pipeline{
             steps{
                 dir("topeducation"){
                     script{
-                        withDockerRegistry(credentialsId: 'dckpass'){
+                        withDockerRegistry(credentialsId: 'docker-credentials'){
                             sh "docker build -t polloh/gestion-estudiantes-backend ."
                             sh "docker push polloh/gestion-estudiantes-backend"
                             sh "docker logout"
