@@ -1,0 +1,37 @@
+pipeline{
+    agent any
+    tools{
+        maven "maven"
+        dockerTool "docker"
+    }
+    stages{
+        stage("Build JAR File"){
+            steps{
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/hector-gallardo-araya/ayudantia-mingeso']])
+                dir("gestion-estudiantes-backend"){
+                    sh "mvn clean install"
+                }
+            }
+        }
+        stage("Test"){
+            steps{
+                dir("gestion-estudiantes-backend"){
+                    sh "mvn test"
+                }
+            }
+        }        
+        stage("Build and Push Docker Image"){
+            steps{
+                dir("topeducation"){
+                    script{
+                        withDockerRegistry(credentialsId: 'dckpass'){
+                            sh "docker build -t polloh/gestion-estudiantes-backend ."
+                            sh "docker push polloh/gestion-estudiantes-backend"
+                            sh "docker logout"
+                        }
+                    }                    
+                }
+            }
+        }
+    }
+}
