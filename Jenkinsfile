@@ -22,7 +22,7 @@ pipeline{
         }        
         stage("Build and Push Docker Image"){
             steps{
-                dir("topeducation"){
+                dir("gestion-estudiantes-backend"){
                     script{
                         withDockerRegistry(credentialsId: 'docker-credentials'){
                             sh "docker build -t polloh/gestion-estudiantes-backend ."
