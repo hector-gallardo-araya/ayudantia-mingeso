@@ -2,6 +2,8 @@ pipeline{
     agent any
     tools{
         maven "maven"
+        dockerTool "docker"
+
     }
     stages{
         stage("Build JAR File"){
@@ -23,11 +25,9 @@ pipeline{
             steps{
                 dir("gestion-estudiantes-backend"){
                     script{
-                         withCredentials([string(usernamePassword(credentialsId: "docker-credentials", usernameVariable: 'docker-username', passwordVariable: 'docker-password'))]) {                            
-                            sh "docker login -u ${docker-username} -p ${docker-password}"
-                            sh "docker build -t polloh/gestion-estudiantes-backend ."
-                            sh "docker push polloh/gestion-estudiantes-backend"
-                            sh "docker logout"
+                         withDockerRegistry(credentialsId: 'docker-credentials'){
+                            sh "docker build -t polloh/topeducation_spring ."
+                            sh "docker push polloh/topeducation_spring"
                         }
                     }                    
                 }
