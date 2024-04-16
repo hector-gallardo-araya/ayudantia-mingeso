@@ -23,7 +23,7 @@ pipeline{
             steps{
                 dir("gestion-estudiantes-backend"){
                     script{
-                         withCredentials([usernamePassword(credentialsId: "docker-credentials", usernameVariable: 'docker-username', passwordVariable: 'docker-password')]) {                            
+                         withCredentials([string(usernamePassword(credentialsId: "docker-credentials", usernameVariable: 'docker-username', passwordVariable: 'docker-password'))]) {                            
                             sh "docker login -u ${docker-username} -p ${docker-password}"
                             sh "docker build -t polloh/gestion-estudiantes-backend ."
                             sh "docker push polloh/gestion-estudiantes-backend"
