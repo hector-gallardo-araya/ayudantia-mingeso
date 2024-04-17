@@ -25,8 +25,8 @@ pipeline{
                 dir("gestion-estudiantes-backend"){
                     script{
                          withDockerRegistry(credentialsId: 'docker-credentials'){
-                            sh "docker build -t polloh/topeducation_spring ."
-                            sh "docker push polloh/topeducation_spring"
+                            sh "docker build -t polloh/gestion-estudiantes-backend ."
+                            sh "docker push polloh/gestion-estudiantes-backend"
                         }
                     }                    
                 }
