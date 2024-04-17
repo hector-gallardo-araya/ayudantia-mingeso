@@ -5,6 +5,7 @@ pipeline{
             steps{
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/hector-gallardo-araya/ayudantia-mingeso']])
                 dir("gestion-estudiantes-frontend"){
+                    bat "npm install"
                     bat "npm run build"
                 }
             }
