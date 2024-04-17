@@ -1,0 +1,25 @@
+pipeline{
+    agent any
+    stages{
+        stage("Build Frontend"){
+            steps{
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/hector-gallardo-araya/ayudantia-mingeso']])
+                dir("gestion-estudiantes-frontend"){
+                    bat "npm run build"
+                }
+            }
+        }
+        stage("Build and Push Docker Image"){
+            steps{
+                dir("gestion-estudiantes-frontend"){
+                    script{
+                         withDockerRegistry(credentialsId: 'docker-credentials'){
+                            bat "docker build -t polloh/gestion-estudiantes-frontend ."
+                            bat "docker push polloh/gestion-estudiantes-frontend"
+                        }
+                    }                    
+                }
+            }
+        }
+    }
+}
