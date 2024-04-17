@@ -1,8 +1,7 @@
 import axios from "axios";
 
-const ESTUDIANTES_API_URL = "http://localhost:80/api/estudiantes";
-const CARRERAS_API_URL = "http://localhost:80/api/carreras";
-
+const ESTUDIANTES_API_URL = "http://gestion-estudiantes-app.brazilsouth.cloudapp.azure.com/api/estudiantes";
+const CARRERAS_API_URL = "http://gestion-estudiantes-app.brazilsouth.cloudapp.azure.com/api/carreras";
 
 function crearEstudiante(estudiante) {
   return axios.post(ESTUDIANTES_API_URL, estudiante);  
