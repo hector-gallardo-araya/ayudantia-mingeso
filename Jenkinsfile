@@ -9,14 +9,14 @@ pipeline{
             steps{
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/hector-gallardo-araya/ayudantia-mingeso']])
                 dir("gestion-estudiantes-backend"){
-                    sh "mvn clean install"
+                    bat "mvn clean install"
                 }
             }
         }
         stage("Test"){
             steps{
                 dir("gestion-estudiantes-backend"){
-                    sh "mvn test"
+                    bat "mvn test"
                 }
             }
         }        
@@ -25,8 +25,8 @@ pipeline{
                 dir("gestion-estudiantes-backend"){
                     script{
                          withDockerRegistry(credentialsId: 'docker-credentials'){
-                            sh "docker build -t polloh/gestion-estudiantes-backend ."
-                            sh "docker push polloh/gestion-estudiantes-backend"
+                            bat "docker build -t polloh/gestion-estudiantes-backend ."
+                            bat "docker push polloh/gestion-estudiantes-backend"
                         }
                     }                    
                 }
