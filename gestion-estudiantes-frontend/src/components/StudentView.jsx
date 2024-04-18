@@ -26,8 +26,8 @@ export default function StudentView() {
             <div>
                 {estudiante ? (
                     <ul>
-                        <li>Nombre estudiante: {estudiante.nombre}</li>
-                        <li>Apellido estudiante: {estudiante.apellido}</li>
+                        <li>Nombre: {estudiante.nombre}</li>
+                        <li>Apellido: {estudiante.apellido}</li>
                         <li>Nombre carrera: {estudiante.nombreCarrera}</li>
                         <li>Calle: {estudiante.calle}</li>
                         <li>Ciudad: {estudiante.ciudad}</li>
