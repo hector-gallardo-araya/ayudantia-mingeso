@@ -85,7 +85,7 @@ public class GestionController {
     String addAsignaturas(@PathVariable String rutEstudiante,
                           @RequestBody AniadirAsignaturas asignaturas) {
         gestionService.addAsignaturas(rutEstudiante, asignaturas.getIdsAsignaturas());
-        return "Asignaturas añadidas con éxito.";
+        return "Asignaturas añadidas con éxito!!!.";
     }
 
     @GetMapping("/asignaturas")
